@@ -79,9 +79,9 @@ class Dungeon:
                     break
 
             if self.run:
-                again = input(f"{Fore.MAGENTA}Do you want to play again?{Fore.BLUE} ")
+                again = input(f"{Fore.MAGENTA}Do you want to play again?{Fore.BLUE} ").strip().lower()
 
-                if again.lower() not in game_constants.yesses:
+                if again not in game_constants.yesses:
                     break
 
     def generate_dungeon(self):

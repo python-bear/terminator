@@ -10,6 +10,9 @@ adams
 added
 admin
 admit
+crane
+igloo
+chink
 adobe
 adopt
 adult

@@ -49,6 +49,12 @@ def run():
                 if guess in word_list:
                     break
                 else:
+                    sys.stdout.write('\x1b[1A')
+                    sys.stdout.write('\x1b[2K')
+
+                    for i in range(min(len(guess), 5)):
+                        print(f"{Fore.RED}{guess[i]}{Fore.RESET}", end="")
+                    print()
                     print(game_constants.input_error("that word is not recognized."))
 
             sys.stdout.write('\x1b[1A')

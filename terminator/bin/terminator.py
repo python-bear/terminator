@@ -36,10 +36,28 @@ class Terminal:
         with open(os.path.join("build", "settings.pkl"), "rb") as file:
             self.settings = pickle.load(file)
 
+        self.server = Server(self)
+        self.client = Client(self)
+        self.quote_categories = (
+            "age", "alone", "amazing", "anger", "architecture", "art", "attitude", "beauty", "best", "birthday",
+            "business", "car", "change", "communication", "computers", "cool", "courage", "dad", "dating", "death",
+            "design", "dreams", "education", "environmental", "equality", "experience", "failure", "faith", "family",
+            "famous", "fear", "fitness", "food", "forgiveness", "freedom", "friendship", "funny", "future", "god",
+            "good", "government", "graduation", "great", "happiness", "health", "history", "home", "hope", "humor",
+            "imagination", "inspirational", "intelligence", "jealousy", "knowledge", "leadership", "learning", "legal",
+            "life", "love", "marriage", "medical", "men", "mom", "money", "morning", "movies", "success"
+        )
+        self.trivia_categories = (
+            "artliterature", "language", "sciencenature", "general", "fooddrink", "peopleplaces", "geography",
+            "historyholidays", "entertainment", "toysgames", "music", "mathematics", "religionmythology",
+            "sportsleisure"
+        )
+        self.api_ninja_key = "cVu40p7dyHJPoa4AHC2QOw==yUKmBq4Qh16vci8M"
+
         self.commands = {
             "local": (
                 "/help", "/?", "/party", "/join", "/exit", "/settings", "/clear", "/format", "/badjoke", "/joke",
-                "/play", "/games", "/update"
+                "/play", "/games", "/update", "/define", "/thesaurus", "/quote", "/rhyme", "/trivia"
             ),
             "client": (
                 "/help", "/?", "/post", "/image", "/view", "/audio", "/listen", "/challenge", "/leave", "/download",
@@ -68,11 +86,12 @@ class Terminal:
                 f"{self.command('/format')}":
                     "Resets the formatting at the position of the cursor. Can be helpful if things have started "
                     "looking funny.",
-                f"{self.command('/badjoke')} -{self.parameter('[chuck/yo]')}":
+                f"{self.command('/badjoke')} -{self.parameter('[chuck/yo/dad]')}":
                     f"Tells you a joke on the topic you chose in the parameter: {self.parameter('[chuck/yo]')}. If you "
-                    f"choose chuck it will be a joke about Chuck Norris (requires an internet connection). If you "
-                    f"choose yo it will be a joke about Yo Mama (doesn't use internet, because yo mama's living the "
-                    f"1600's).",
+                    f"choose {self.parameter('[chuck]')} it will be a joke about Chuck Norris (requires an internet "
+                    f"connection). If you choose {self.parameter('[yo]')} it will be a joke about Yo Mama (doesn't use "
+                    f"internet, because yo mama's living the 1600's). Choosing {self.parameter('[dad]')} will get a "
+                    f"dad joke (requires internet).",
                 f"{self.command('/joke')} -{self.parameter('[category]')} -{self.parameter('[blacklist]')} "
                 f"-{self.parameter('[find]')}":
                     f"Fetches a joke from the internet. {self.parameter('[category]')} can be any, programming, misc, "
@@ -84,6 +103,21 @@ class Terminal:
                     f"Starts a game on the local computer. Run {self.command('/games')} to view the choices.",
                 f"{self.command('/games')}":
                     "Lists the names of the games that you can play locally, as well as gives a summary of them.",
+                f"{self.command('/define')} -{self.parameter('[word]')}":
+                    f"Gives you the definitions of the word you chose in {self.parameter('[word]')} (requires "
+                    f"internet).",
+                f"{self.command('/thesaurus')} -{self.parameter('[word]')}":
+                    f"Gives you a list of all synonyms and antonyms for {self.parameter('[word]')} (requires "
+                    f"internet).",
+                f"{self.command('/quote')} -{self.parameter('[category]')}":
+                    f"Generates a random quote in the category that you chose, which can be pretty much anything "
+                    f"(requires internet).",
+                f"{self.command('/rhyme')} -{self.parameter('[word]')}":
+                    f"Gives you a list of words which rhyme with {self.parameter('[word]')} (requires internet).",
+                f"{self.command('/trivia')} -{self.parameter('[rounds]')} -{self.parameter('[category]')}":
+                    f"{self.parameter('[rounds]')} is how many questions you will be asked, defaults to 10. The "
+                    f"argument {self.parameter('[category]')} is optional, but can be in "
+                    f"{ui.answers_printable(self.trivia_categories)} (requires internet).",
                 f"{self.command('/update')}": "Updates the app, you need an internet connection for it to work."
             },
             "client": {
@@ -133,7 +167,7 @@ class Terminal:
         self.games = {
             "local": {
                 f"{self.command('donsol')}": "A strategy card game about beating a dungeon.",
-                f"{self.command('pof')}": "Pathways Of Fater, a choose your own adventure game in the terminal.",
+                f"{self.command('pof')}": "Pathways Of Fate, a choose your own adventure game in the terminal.",
                 f"{self.command('ng')}": "Guess the number between 1 and 100.",
                 f"{self.command('rps')}":
                     "Rock-Paper-Scissors, with local multiplayer up to three players, and vs. computer mode. Includes "
@@ -154,8 +188,6 @@ class Terminal:
                 f"{self.command('wordle')}": "Wordle, guess the five-letter word, like Master Mind but easier."
             }
         }
-        self.server = Server(self)
-        self.client = Client(self)
 
     def run(self):
         colorama.init(autoreset=True, strip=not self.settings["allow coloring"])
@@ -175,10 +207,12 @@ class Terminal:
             )
 
             if command.startswith("/exit"):
-                command = command.split("-")
-                if command[-1] == "f":
+                command = [arg.strip() for arg in command.lower().split("-")]
+                if command[1] == "f":
                     sys.exit()
-                elif command[-1] == "g":
+                elif command[1] == "g":
+                    break
+                else:
                     break
             elif self.state == "local":
                 if self.handle_local_command(command):
@@ -281,7 +315,7 @@ class Terminal:
                       f"{search_input}"
 
                 response = requests.get(url)
-                if response.status_code == 200:
+                if response.status_code == requests.codes.ok:
                     data = response.json()
                     if not data["error"]:
                         if data["type"] == "twopart":
@@ -289,7 +323,7 @@ class Terminal:
                             ending = " " if setup.endswith("?") or setup.endswith(":") or setup.endswith("...") \
                                 else ".. " if setup.endswith(".") \
                                 else "..."
-                            __ = input(f"    {data['setup']}{ending}")
+                            __ = ui.input(f"    {data['setup']}{ending}")
                             print(f"    {data['delivery']}")
                         else:
                             print(f"    {data['joke']}")
@@ -297,30 +331,172 @@ class Terminal:
                         print(ui.input_error(f"failed to fetch a joke, error code {self.command(data['code'])}: "
                                              f"{self.command(data['additionalInfo'])}"))
                 else:
-                    print(ui.input_error(f"failed to fetch a joke from {self.command(url)}, error code "
-                                         f"{self.command(str(response.status_code))}, check your internet connection, "
-                                         f"otherwise the website might be down."))
+                    print(ui.input_error(
+                        f"failed to fetch a joke from {self.command(url)}, error code "
+                        f"{self.command(str(response.status_code))}, check your internet connection, otherwise the "
+                        f"website might be down, broken, or not able to fulfil your request."))
         elif command.startswith("/badjoke"):
             command = [arg.strip() for arg in command.lower().split("-")]
             if command[-1] == "chuck":
                 response = requests.get("https://api.chucknorris.io/jokes/random")
 
-                if response.status_code == 200:
+                if response.status_code == requests.codes.ok:
                     data = response.json()
                     joke = data["value"]
                     print(f"    {joke}")
                 else:
-                    print(ui.input_error(f"failed to fetch a Chuck Norris joke, error code "
-                                         f"{self.command(str(response.status_code))}, check your internet connection, "
-                                         f"otherwise the website might be down."))
+                    print(ui.input_error(
+                        f"failed to fetch a Chuck Norris joke, error code {self.command(str(response.status_code))}, "
+                        f"check your internet connection, otherwise the website might be down, broken, or not able to "
+                        f"fulfil your request."))
             elif command[-1] == "yo":
                 with open(os.path.join("lib", "yo_mama_jokes.txt"), "r", encoding="utf-8") as file:
                     joke = random.choice(file.read().splitlines())
                 print(f"    {joke}")
 
+            elif command[-1] == "dad":
+                response = requests.get("https://icanhazdadjoke.com/", headers={"Accept": "application/json"})
+
+                if response.status_code == requests.codes.ok:
+                    data = response.json()
+                    joke = data["joke"].split("? ")
+
+                    for i in range(len(joke)):
+                        if i != len(joke) - 1:
+                            __ = ui.input(f"    {joke[i]}? ")
+                        else:
+                            print(f"    {joke[i]}")
+                else:
+                    print(ui.input_error(
+                        f"failed to fetch a dad joke, error code {self.command(str(response.status_code))}, check your "
+                        f"internet connection, otherwise the website might be down, broken, or not able to fulfil your "
+                        f"request."))
+
             else:
                 print(ui.input_error(f"the name {self.command(command[-1])} is not recognized as a joke category "
                                      f"name."))
+        elif command.startswith("/define"):
+            command = [arg.strip() for arg in command.lower().split("-")]
+
+            if len(command) < 3:
+                command.append("en")
+
+            response = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/{command[2]}/{command[1]}",
+                                    headers={"Accept": "application/json"})
+
+            if response.status_code == requests.codes.ok:
+                data = response.json()
+                ui.print_definition(data[0])
+            else:
+                print(ui.input_error(
+                    f"failed to fetch a definition, error code {self.command(str(response.status_code))}, check your "
+                    f"internet connection, otherwise the website might be down, broken, or not able to fulfil your "
+                    f"request."))
+        elif command.startswith("/quote"):
+            command = [arg.strip() for arg in command.lower().split("-")]
+
+            if len(command) < 2:
+                command.append(random.choice(self.quote_categories))
+
+            if command[1] not in self.quote_categories:
+                print(ui.input_error(
+                    f"You must specify the {self.parameter('[category]')} to be one of the following: "
+                    f"{ui.answers_printable(self.quote_categories)}")
+                )
+            else:
+                response = requests.get(f"https://api.api-ninjas.com/v1/quotes?category={command[1]}",
+                                        headers={"Accept": "application/json", "X-Api-Key": self.api_ninja_key})
+
+                if response.status_code == requests.codes.ok:
+                    data = response.json()
+                    ui.print_quote(data[0])
+                else:
+                    print(ui.input_error(
+                        f"failed to fetch a quote, error code {self.command(str(response.status_code))}, check "
+                        f"your internet connection, otherwise the website might be down, broken, or not able to fulfil "
+                        f"your request."))
+        elif command.startswith("/rhyme"):
+            command = [arg.strip() for arg in command.lower().split("-")]
+
+            if len(command) < 2:
+                print(ui.input_error(f"You must specify the {self.parameter('[word]')} you want to rhyme with."))
+            else:
+                response = requests.get(f"https://api.api-ninjas.com/v1/rhyme?word={command[1]}",
+                                        headers={"Accept": "application/json", "X-Api-Key": self.api_ninja_key})
+
+                if response.status_code == requests.codes.ok:
+                    data = response.json()
+                    if len(data) == 0:
+                        print(f"  No words rhyme with {command[1]}.")
+                    else:
+                        for i, word in enumerate(data):
+                            if len(data) == 1:
+                                print(f"  Only {word} rhymes with {command[1]}.")
+                            elif i == len(data) - 1:
+                                print(f"and {word} all rhyme with {command[1]}.")
+                            elif i == 0:
+                                print(f"  {word}, ", end="")
+                            else:
+                                print(f"{word}, ", end="")
+                else:
+                    print(ui.input_error(
+                        f"failed to fetch rhyming words, error code {self.command(str(response.status_code))}, check "
+                        f"your internet connection, otherwise the website might be down, broken, or not able to fulfil "
+                        f"your request."))
+        elif command.startswith("/thesaurus"):
+            command = [arg.strip() for arg in command.lower().split("-")]
+
+            if len(command) < 2:
+                print(ui.input_error(f"You must specify the {self.parameter('[word]')} you want to lookup."))
+            else:
+                response = requests.get(f"https://api.api-ninjas.com/v1/thesaurus?word={command[1]}",
+                                        headers={"Accept": "application/json", "X-Api-Key": self.api_ninja_key})
+
+                if response.status_code == requests.codes.ok:
+                    data = response.json()
+                    if len(data["synonyms"]) == 0 and len(data["antonyms"]) == 0:
+                        print(f"  {command[1]} has no antonyms or synonyms.")
+                    else:
+                        ui.print_thesaurus(data)
+                else:
+                    print(ui.input_error(
+                        f"failed to fetch thesaurus entry, error code {self.command(str(response.status_code))}, check "
+                        f"your internet connection, otherwise the website might be down, broken, or not able to fulfil "
+                        f"your request."))
+        elif command.startswith("/trivia"):
+            command = [arg.strip() for arg in command.lower().split("-")]
+
+            if len(command) == 1:
+                command.append(10)
+
+            if len(command) == 2:
+                command.append(None)
+
+            if ui.str_to_int(command[1]) is None:
+                print(ui.input_error(f"The value {self.parameter('command[1]')} is not recognized as a valid integer."))
+            elif command[2] not in self.trivia_categories and command[2] is not None:
+                print(ui.input_error(
+                    f"You must specify the {self.parameter('[category]')} to be one of the following: "
+                    f"{ui.answers_printable(self.trivia_categories)}")
+                )
+            else:
+                score = 0
+                for i in range(ui.str_to_int(command[1])):
+                    response = requests.get(
+                        f"https://api.api-ninjas.com/v1/trivia?category="
+                        f"{random.choice(self.trivia_categories) if command[2] is None else command[2]}",
+                        headers={"Accept": "application/json", "X-Api-Key": self.api_ninja_key}
+                    )
+
+                    if response.status_code == requests.codes.ok:
+                        data = response.json()
+                        score += ui.trivia(data[0])
+                    else:
+                        print(ui.input_error(
+                            f"failed to fetch a trivia question, error code {self.command(str(response.status_code))}, "
+                            f"check your internet connection, otherwise the website might be down, broken, or not able "
+                            f"to fulfil your request."))
+                print(f"\n Game Over! Your score is {score}/{command[1]}\n")
         elif command.startswith("/settings"):
             choices = [
                 f"{key} : {val}" for key, val in [*self.settings.items(), *self.account.items()]
