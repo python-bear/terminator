@@ -15,6 +15,36 @@ class Ui:
             "input": f"{Style.RESET_ALL}{Fore.YELLOW}"
         }
         self.max_line_length, __ = os.get_terminal_size()
+        self.ip_encoding = {
+            "0.": "A",
+            "1.": "B",
+            "2.": "C",
+            "3.": "D",
+            "4.": "E",
+            "5.": "F",
+            "6.": "G",
+            "7.": "H",
+            "8.": "I",
+            "9.": "J",
+
+            "192": "K",
+            "168": "L",
+
+            "00": "M",
+            "10": "N",
+            "20": "P",
+            "30": "Q",
+            "40": "R",
+            "50": "S",
+            "60": "T",
+            "70": "U",
+            "80": "V",
+            "90": "W",
+
+            "11": "X",
+            "12": "Y",
+            "13": "Z"
+        }
 
     def choice(self, text: str, answers: tuple, secret: bool = False, password: bool = False,
                remove_space: bool = False, convert_words_to_numbers: bool = True, new_lined: bool = False):
@@ -169,11 +199,13 @@ class Ui:
 
     def trivia(self, data) -> float:
         self.clean_formatting()
-        question = data["question"].strip().split(" (")[0]
+        question = data["question"].strip()
         ending = "" if question.endswith("?") or question.endswith(";") or question.endswith(":") \
                        or question.endswith(".") else "?"
         true_answer = self.strip_trivia_answer(data["answer"])
+        # print(true_answer)
         answer = self.strip_trivia_answer(self.input(f"  {question}{ending} "))
+        # print(answer)
         if answer == true_answer:
             print("    Yes!")
             return 1
@@ -185,13 +217,26 @@ class Ui:
             return 0
 
     def strip_trivia_answer(self, text: str) -> str:
-        return self.full_lstrip(self.full_lstrip(self.full_lstrip(
+        return self.full_lstrip(self.full_lstrip(self.full_lstrip(self.full_lstrip(
             self.replace_words_with_numbers(
                 text.lower().replace("'", "").replace('"', "").strip().replace("  ", " ").replace("\t", " ")
-            ).replace("one ", " ").replace("-", " ").replace(",", "").replace(".", "").replace(":", "").replace(":", "")
-            .replace("(", "").replace(")", "").replace("{", "").replace("}", "").replace("[", "").replace("]", "")
-            .replace("!", "").replace("?", "").replace("~", "").replace("_", "").replace("#", "").replace(" an ", " ")
-            .replace(" the ", " ").replace(" & ", " and ").rstrip("s").replace(" ", ""), "and"), "an"), "the")
+            ).lower().replace("one ", " ").replace("-", " ").replace(",", "").replace(".", "").replace(":", "")
+            .replace(":", "").replace("(", "").replace(")", "").replace("{", "").replace("}", "").replace("[", "")
+            .replace("]", "").replace("!", "").replace("?", "").replace("~", "").replace("_", "").replace("#", "")
+            .replace(" an ", " ").replace(" the ", " ").replace("&", "and").rstrip("s"), "and "),
+            "an "), "the "), "a ").replace(" ", "")
+
+    def ip_to_code(self, ip: str) -> str:
+        for key, value in self.ip_encoding.items():
+            ip = ip.replace(key, value)
+
+        return ip
+
+    def code_to_ip(self, code: str) -> str:
+        for key, value in self.ip_encoding.items().__reversed__():
+            code = code.replace(value, key)
+
+        return code
 
     @staticmethod
     def replace_words_with_numbers(text: str) -> str:

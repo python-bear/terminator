@@ -1,3 +1,4 @@
+import json
 import sys
 import subprocess
 import colorama
@@ -36,6 +37,9 @@ class Terminal:
         with open(os.path.join("build", "settings.pkl"), "rb") as file:
             self.settings = pickle.load(file)
 
+        with open(os.path.join("lib", "trivia.json"), "r", encoding="utf-8") as file:
+            self.custom_trivia = json.load(file)
+
         self.server = Server(self)
         self.client = Client(self)
         self.quote_categories = (
@@ -47,11 +51,14 @@ class Terminal:
             "imagination", "inspirational", "intelligence", "jealousy", "knowledge", "leadership", "learning", "legal",
             "life", "love", "marriage", "medical", "men", "mom", "money", "morning", "movies", "success"
         )
-        self.trivia_categories = (
+        self.trivia_categories = [
             "artliterature", "language", "sciencenature", "general", "fooddrink", "peopleplaces", "geography",
             "historyholidays", "entertainment", "toysgames", "music", "mathematics", "religionmythology",
             "sportsleisure"
-        )
+        ]
+        for key in self.custom_trivia.keys():
+            self.trivia_categories.append(key)
+
         self.api_ninja_key = "cVu40p7dyHJPoa4AHC2QOw==yUKmBq4Qh16vci8M"
 
         self.commands = {
@@ -64,7 +71,7 @@ class Terminal:
                 "/games", "/exit"
             ),
             "server": (
-                "/help", "/?", "/kick", "/ban", "/pardon", "/close"
+                "/help", "/?", "/kick", "/ban", "/pardon", "/close", "/code"
             )
         }
 
@@ -153,6 +160,8 @@ class Terminal:
             "server": {
                 f"{self.command('/help')}": "Displays this help page, which explains the use of each command.",
                 f"{self.command('/?')}": f"Same as {self.command('/help')}.",
+                f"{self.command('/code')}":
+                    f"Displays the join code for the party, which others will need if they want to connect.",
                 f"{self.command('/kick')} -{self.parameter('[reason]')}":
                     f"Opens up a list of currently connected users and lets you select which ones to kick, telling "
                     f"each one the {self.parameter('[reason]')}. They can immediately rejoin afterwards.",
@@ -220,6 +229,9 @@ class Terminal:
             elif self.state == "client":
                 if self.handle_client_command(command):
                     break
+            elif self.state == "server":
+                if self.handle_server_command(command):
+                    break
 
         with open(os.path.join("build", "account.pkl"), "wb") as file:
             pickle.dump(self.account, file)
@@ -235,6 +247,9 @@ class Terminal:
             self.state = "local"
             self.server.run = False
             self.server_thread.join()
+            self.server.party_name = None
+        elif command.startswith("/code"):
+            print(f"    Code: {ui.ip_to_code(':'.join([str(val) for val in self.server.server_address]))}")
         return False
 
     def handle_client_command(self, command: str) -> bool:
@@ -262,14 +277,40 @@ class Terminal:
         elif command.startswith("/format"):
             print(Style.RESET_ALL, end="")
         elif command.startswith("/party"):
+            command = [arg.strip() for arg in command.lower().split("-")]
+
+            if len(command) == 1:
+                command.append(f"{self.account['plain name'].capitalize()}'s Party")
+
             self.state = "server"
+            self.server.party_name = command[1]
             self.server.run = True
             self.server_thread = threading.Thread(target=self.server.start_server)
             self.server_thread.start()
         elif command.startswith("/join"):
-            self.state = "client"
-            self.client.run = True
-            self.client.start_client()
+            command = [arg.strip() for arg in command.lower().split("-")]
+
+            if len(command) == 1:
+                print(ui.input_error(f"you need to supply the party join code. Ask the host if you don't know it."))
+
+            else:
+                try:
+                    code = ui.code_to_ip(command[1].upper()).split(":")
+                    self.client.server_host = code[0]
+                    self.client.server_port = int(code[1])
+
+                    self.state = "client"
+                    self.client.run = True
+                    print(self.client.server_port)
+                    print(self.client.server_host)
+
+                    try:
+                        self.client.start_client()
+                    except Exception as e:
+                        print(ui.input_error(f"something when wrong in trying to connect to a party with the code "
+                                             f"{code}: {e}"))
+                except:
+                    print(ui.input_error(f"that join code is invalid. It is not the right format."))
         elif command.startswith("/exit"):
             command = [arg.strip() for arg in command.lower().split("-")]
             if command[-1] == "f":
@@ -482,20 +523,30 @@ class Terminal:
             else:
                 score = 0
                 for i in range(ui.str_to_int(command[1])):
-                    response = requests.get(
-                        f"https://api.api-ninjas.com/v1/trivia?category="
-                        f"{random.choice(self.trivia_categories) if command[2] is None else command[2]}",
-                        headers={"Accept": "application/json", "X-Api-Key": self.api_ninja_key}
-                    )
+                    if command[2] not in self.custom_trivia.keys():
+                        response = requests.get(
+                            f"https://api.api-ninjas.com/v1/trivia?category="
+                            f"{random.choice(self.trivia_categories) if command[2] is None else command[2]}",
+                            headers={"Accept": "application/json", "X-Api-Key": self.api_ninja_key}
+                        )
 
-                    if response.status_code == requests.codes.ok:
-                        data = response.json()
-                        score += ui.trivia(data[0])
+                        if response.status_code == requests.codes.ok:
+                            data = response.json()
+                            score += ui.trivia(data[0])
+                        else:
+                            print(ui.input_error(
+                                f"failed to fetch a trivia question, error code "
+                                f"{self.command(str(response.status_code))}, check your internet connection, otherwise "
+                                f"the website might be down, broken, or not able to fulfil your request."))
                     else:
-                        print(ui.input_error(
-                            f"failed to fetch a trivia question, error code {self.command(str(response.status_code))}, "
-                            f"check your internet connection, otherwise the website might be down, broken, or not able "
-                            f"to fulfil your request."))
+                        data = random.choice(
+                            self.custom_trivia[random.choice(self.custom_trivia.keys()) if command[2] is None else command[2]]
+                        )
+                        data = {
+                            "question": data[0],
+                            "answer": data[1]
+                        }
+                        score += ui.trivia(data)
                 print(f"\n Game Over! Your score is {score}/{command[1]}\n")
         elif command.startswith("/settings"):
             choices = [

@@ -11,6 +11,7 @@ class Server:
         self.usernames = []
         self.run = False
         self.client_threads = []
+        self.party_name = None
 
     def start_server(self):
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

@@ -1,0 +1,588 @@
+{
+  "owens": [
+    [
+      "From which great historical ruler is the word 'tsar' derived from?",
+      "Julius Caesar"
+    ],
+    [
+      "Who said 'If the minimum wasn't good enough, it wouldn't be called the minimum'?",
+      "Mediocrates"
+    ],
+    [
+      "Between what two common colors are combined to make the color chartreuse?",
+      "Yellow and green"
+    ],
+    [
+      "What color does the hexadecimal code #FF11EE approximately represent?",
+      "Magenta"
+    ],
+    [
+      "What is the name of the group who's common abbreviation is KKK?",
+      "The Ku Klux Klan"
+    ],
+    [
+      "Which American rapper sings 'Lord Give Me A Sign'?",
+      "DMX"
+    ],
+    [
+      "What type of mathematical curve is the main building block of all font glyphs?",
+      "Bezier Curves"
+    ],
+    [
+      "What does HTTP stand for in relation to the internet and servers?",
+      "Hyper Text Transfer Protocol"
+    ],
+    [
+      "From which alphabet do letters like Iota, Gamma, Kappa, and Epsilon originate?",
+      "The Greek"
+    ],
+    [
+      "What Windows application is used to run .bat files?",
+      "CMD"
+    ],
+    [
+      "What programming language is used to make websites interactive, add games, animations, timers, etc.",
+      "Javascript"
+    ],
+    [
+      "What alloy is predominantly made of the two main metals Gold and Copper?",
+      "Rose Gold"
+    ],
+    [
+      "'The Point Of No Return' is a song from what famous movie?",
+      "The Phantom Of The Opera"
+    ],
+    [
+      "What does GPT stand for, in relation to AI?",
+      "Generative Pre-Trained Transformer"
+    ],
+    [
+      "On the Windows operating system what sort of file is a .lnk file?",
+      "A shortcut"
+    ],
+    [
+      "How many bits are in a byte?",
+      "Eight"
+    ],
+    [
+      "What does PNG stand for, in relation to image files?",
+      "Portable Network Graphic"
+    ],
+    [
+      "What are the two most common examples of boolean values?",
+      "True and false"
+    ],
+    [
+      "The value 192.168.1.109 is most likely what sort of datatype?",
+      "An IP address"
+    ],
+    [
+      "What do MP4 and MP3 files both have?",
+      "Audio"
+    ],
+    [
+      "The font style oblique is also called what?",
+      "Faux italic"
+    ],
+    [
+      "If a font does not have kerning it's letters look _______ incorrectly.",
+      "Spaced"
+    ],
+    [
+      "If a font is not serifed then what sort of font is it?",
+      "Sans-Serif"
+    ],
+    [
+      "Fraktur, Textur, Rotunda and Schwabacher are all members of what family?",
+      "Blackletter"
+    ],
+    [
+      "What is the name of the character '&'?",
+      "Ampersand"
+    ],
+    [
+      "The Old English letter Thorn (uppercase: Þ, lowercase: þ) is now obsolete, what letter [or combination of letters] is currently used to represent the sound that it made?",
+      "Th"
+    ],
+    [
+      "The Old English letter Yogh (uppercase: Ȝ, lowercase: ȝ) was replaced with what modern English letter?",
+      "G"
+    ],
+    [
+      "What is the name of the Old English letter that would have been used to represent the vowel in the words 'cat' or 'tap'?",
+      "Ash"
+    ],
+    [
+      "The German letter Eszett (ß) makes the same sound as what English letter?",
+      "S"
+    ],
+    [
+      "In what group of countries does the letter J usually make the same sound as the English consonant Y?",
+      "Scandinavian"
+    ],
+    [
+      "Denmark, Norway, Sweden, Finland and Iceland, amongst others are part of a group of countries called what?",
+      "Scandinavia"
+    ],
+    [
+      "In German the trigraph 'sch' represents what sound in English?",
+      "SH"
+    ],
+    [
+      "In English TH, CH, SH, and ZH are all examples of what?",
+      "Digraphs"
+    ],
+    [
+      "In German the tetragraph 'tzsch' represents what sound in English?",
+      "SH"
+    ],
+    [
+      "Countries such as Russia, Bulgaria and Ukraine all use what script/alphabet?",
+      "The Cyrillic"
+    ],
+    [
+      "During the period around the year 1941 Hitler converted the official German script from variants of Blackletter to what other script in order to help 'internationalize' Germany?",
+      "Antiqua"
+    ],
+    [
+      "The most common worldwide number encoding system used in every-day life is commonly referred to as what numeral system?",
+      "Arabic"
+    ],
+    [
+      "Paintings such as the Vienna State Opera, Mother Mary with the Holy Child Jesus Christ, The Courtyard of the Old Residency in Munich and Neuschwanstein Castle are all works by who?",
+      "Adolf Hitler"
+    ],
+    [
+      "A deck of Tarot cards is divided into two parts, the Major Arcana and the Minor Arcana. How many cards are there in the Major Arcana?",
+      "Twenty two"
+    ],
+    [
+      "What cardinal element is the Tarot card 'The Tower' associated with?",
+      "Fire"
+    ],
+    [
+      "The Tarot trump card of Temperance most commonly depicts a what holding two goblets?",
+      "An angel"
+    ],
+    [
+      "The Tarot trump card The Devil, which is associated with water, is associated with what celestial body?",
+      "Saturn"
+    ],
+    [
+      "In a deck of 78 Tarot cards there is one unnumbered card, what is it's name?",
+      "The Fool"
+    ],
+    [
+      "The act of fortune-telling or divination using a deck of cards is called what?",
+      "Cartomancy"
+    ],
+    [
+      "The magic of healing, animating the dead and dealing with death is called what?",
+      "Necromancy"
+    ],
+    [
+      "Gastromancy is the ability to throw one's what?",
+      "voice"
+    ],
+    [
+      "The word for using magic for a selfless or helpful purpose, as opposed to using it selfishly or evily is what?",
+      "White Magic"
+    ],
+    [
+      "In Medieval times it was believed that what common good had anti-magic properties?",
+      "Salt"
+    ],
+    [
+      "Chronomancy is magic to do with what?",
+      "Time"
+    ],
+    [
+      "In Dungeons and Dragons the schools of magic are Abjuration, Enchantment, Divination, Evocation, Transmutation, Necromancy, Conjuration and what?",
+      "Illusion"
+    ],
+    [
+      "In a common year how many seconds are there?",
+      "31563000"
+    ],
+    [
+      "In Minecraft how many types of tools are there, excluding unique tools such as tridents, flint and steel, bows, fishing rods, shears, etc.?",
+      "Thirty"
+    ],
+    [
+      "In Minecraft how many armor tiers are there in total (including incomplete ones)?",
+      "Eight"
+    ],
+    [
+      "In Minecraft how many items are usually needed to get a 'stack' of that item type?",
+      "64"
+    ],
+    [
+      "In Minecraft what is the most efficient tool material?",
+      "Gold"
+    ],
+    [
+      "Cannonically, in Minecraft what is the most powerful type of energy?",
+      "Soul"
+    ],
+    [
+      "Excluding the DLCs, what is the title/non-personal name of the main antagonist in Minecraft: Dungeons?",
+      "The Arch-Illager"
+    ],
+    [
+      "In Minecraft, villagers, ravagers, and Illagers are all types of what?",
+      "Testificates"
+    ],
+    [
+      "What precious blue stone is used in the process of enchanting in Minecraft?",
+      "Lapis Lazuli"
+    ],
+    [
+      "On Mac OS and most Linux system what us the terminal command that lists all of the files and their summaries in the current directory but is not recognized on Windows? (clue: it is short for list)",
+      "ls"
+    ],
+    [
+      "Ubuntu, Dedian, Kali, Fedora and Parrot are all names of what?",
+      "Linux distros"
+    ],
+    [
+      "In relation to computers, OS stands for what?",
+      "Operating System"
+    ],
+    [
+      "The song 'My Way', first recorded in 1968/1969 is sung by who?",
+      "Frank Sinatra"
+    ],
+    [
+      "The source code editor application Notepad++ is commonly shortened to what?",
+      "NPP"
+    ],
+    [
+      "What is missing from the following English Wikipedia URL: https://en.wikipedia_______/wiki/Poaceae ?",
+      ".org"
+    ],
+    [
+      "What is Wikipedia slogan/description in it's logo?",
+      "The Free Encyclopedia"
+    ],
+    [
+      "A Bookmarklet is a _________ that can run JavaScript code on a website?",
+      "Bookmark"
+    ],
+    [
+      "What is the mathematical constant Pi (π) rounded to 5 decimal places?",
+      "3.14159"
+    ],
+    [
+      "22 over _______, what number is commonly used as an approximation for the mathematical constant Pi?",
+      "Seven"
+    ],
+    [
+      "The mathematical constant Pi is defined as a circle's circumference divided by its what?",
+      "Diameter"
+    ],
+    [
+      "State the mathematical constant Tau (τ) rounded to 3 decimal places.",
+      "6.283"
+    ],
+    [
+      "What is the square root of 2, rounded to 1 decimal place?",
+      "1.4"
+    ],
+    [
+      "What is the Golden Ratio (φ) rounded to the nearest integer?",
+      "2"
+    ],
+    [
+      "What is the square root of one?",
+      "One"
+    ],
+    [
+      "State the mathematical constant Euler's Number (e) rounded to one decimal place",
+      "2.7"
+    ],
+    [
+      "What is the name of the last letter of the Greek alphabet?",
+      "Omega"
+    ],
+    [
+      "What is the name of the Greek letter whose uppercase is Λ, and lowercase is λ?",
+      "Lambda"
+    ],
+    [
+      "What programming language is associated with files ending in .py?",
+      "Python"
+    ],
+    [
+      "Wizards Of The Coast's most famous card game's name is commonly abbreviated to MTG, what is it's name in full?",
+      "Magic: The Gathering"
+    ],
+    [
+      "In the card game Magic: The Gathering, the five main colors are green, red, black, blue and what?",
+      "White"
+    ],
+    [
+      "In the card game Magic: The Gathering most cards can have one of four rarities: common, uncommon, rare and _____ rare. What is the missing word?",
+      "Mythic"
+    ],
+    [
+      "What traditional Chinese philosophical concept is usually represented by a circle made up of two tear-drop-like shapes, one black, one white, each with a circle of the other in the middle if their area?",
+      "Yin and Yang"
+    ],
+    [
+      "In Minecraft what is the name of the floating, fire-ball shooting, white, many tentacled creatures that inhabit the hell-like Nether dimension?",
+      "The Ghast"
+    ],
+    [
+      "The Bluetooth symbol consists of the combination of the two ______ runes for H and B (after Harald Bluetooth). What word is missing?",
+      "Nordic"
+    ],
+    [
+      "In relation to the internet, what does VPN stand for?",
+      "Virtual Private Network"
+    ],
+    [
+      "What is the answer to tan(x) where x = 90 degrees?",
+      "Undefined"
+    ],
+    [
+      "Any number divided by infinity technically equals what?",
+      "Infinitesimal"
+    ],
+    [
+      "Zero equals 57 divided by ________. What word is missing?",
+      "Infinity"
+    ],
+    [
+      "The book series 'The Lord Of The Rings' was written by which famous author?",
+      "J. R. R. Tolkein"
+    ],
+    [
+      "'Never invade Russia in ______', what is the missing word of this saying?",
+      "Winter"
+    ],
+    [
+      "What English letter makes the same sound as the Cyrillic letter Д?",
+      "D"
+    ],
+    [
+      "In what year was the Google company founded originally?",
+      "1998"
+    ],
+    [
+      "Which famous entrepreneur owns companies such as The Boring Company, PayPal and Zip2?",
+      "Elon Musk"
+    ],
+    [
+      "Which famous entrepreneur owns Meta?",
+      "Mark Zuckerberg"
+    ],
+    [
+      "Which unexpected crippled scientist is on Jeffery Epstein's client list?",
+      "Stephen Hawking"
+    ],
+    [
+      "What are the subatomic particles the proton, neutron and baryon made up of?",
+      "Quarks"
+    ],
+    [
+      "How many quarks make up the subatomic particle named the Meson?",
+      "Two"
+    ],
+    [
+      "In the Standard Model of Particle physics, not-including their neutrino variants, there are ________, muons and tau particles. What is the missing word?",
+      "Electrons"
+    ],
+    [
+      "In The Standard Model of Particle physics, the six types of quarks are: up, down, top, bottom, strange, and what quark?",
+      "Charm"
+    ],
+    [
+      "There first three gluons are the red, green and blue, gluons, after that you have the ______-color gluons. What word is missing?",
+      "Anti"
+    ],
+    [
+      "The what force holds the nuclei of atoms together?",
+      "Strong"
+    ],
+    [
+      "Eeny, meeny, miny, mo. Catch a ______ by his toe; If he squeals let him go, eeny, meeny, miny, mo. What is the missing word?",
+      "Nigger"
+    ],
+    [
+      "Star____, War____, Mine____. What word can fill in all of the blanks?",
+      "Craft"
+    ],
+    [
+      "What famous autobiographical manifesto, written by Adolf Hitler has a name of similar sounding to Minecraft?",
+      "Mein Kampf"
+    ],
+    [
+      "What English word does the US IPA transliteration /bɪkˈʌz/ correspond to?",
+      "Because"
+    ],
+    [
+      "What English word does the US IPA transliteration /ɐwˈe͡ɪ/ correspond to?",
+      "Away"
+    ],
+    [
+      "What English word does the US IPA transliteration /ɹˈa͡ɪt/ correspond to?",
+      "Right"
+    ],
+    [
+      "What does the abbreviation ASCII stand for?",
+      "American Standard Code for Information Interchange"
+    ],
+    [
+      "What do the two opposing sides of a ten sided dice always add up to?",
+      "Nine"
+    ],
+    [
+      "What is the full scientific name for water (H2O)?",
+      "Dihydrogen Monoxide"
+    ],
+    [
+      "What is the square root of 81?",
+      "Nine"
+    ],
+    [
+      "What is -5 cubed?",
+      "25"
+    ],
+    [
+      "In 1983, an edition of the Durand Express, a weekly newspaper in Durand, Michigan, reported that ______ had been found in the city's water pipes, and warned that it was fatal if inhaled, and could produce blistering vapors. What common substance was discovered?",
+      "Water"
+    ],
+    [
+      "Which author wrote the books titled Digital Fortress, The Da Vinci Code, Angels & Demons, Inferno and The Lost Symbol, amongst others?",
+      "Dan Brown"
+    ],
+    [
+      "Which famous American author and activist wrote books such as The Call Of The Wild, The Iron Heel and The People Of The Abyss, amongst others?",
+      "Jack London"
+    ],
+    [
+      "The the game Pentago is made up of four wooden tiles, each consisting of how many slots?",
+      "Nine"
+    ],
+    [
+      "In the board game Catan, by Klaus Teuber, how many inland tiles make up the island in the base game?",
+      "19"
+    ],
+    [
+      "The default resources in the game Catan are ore, grain, bricks, wool and what?",
+      "Lumber"
+    ],
+    [
+      "In the boardgame Catan what resource does the desert tile produce?",
+      "None"
+    ],
+    [
+      "What is the current slogan of the boardgame Catan, by Klaus Teuber?",
+      "TRADE BUILD SETTLE"
+    ],
+    [
+      "The game Mastermind, based off of the game Bulls and Cows (which likely dated back many centuries), was invented in which country?",
+      "Israel"
+    ],
+    [
+      "In the original Invicta Plastics version of Mastermind, released in 1972, how many colors of code pegs where there?",
+      "Six"
+    ],
+    [
+      "In the Lego fantasy boardgame Heroica how many sets are there in total (excluding Ganrash Island)?",
+      "Five"
+    ],
+    [
+      "In the Lego fantasy boardgame Heroica, the original two characters (from the Draida Bay set) where the Barbarian and the who?",
+      "Wizard"
+    ],
+    [
+      "In the Lego fantasy boardgame Heroica physically, the two largest monsters are the bat and the what?",
+      "Spider"
+    ],
+    [
+      "In the Lego fantasy boardgame Heroica the potion of ______ allows you to defeat any adjacent monster. What is the missing word?",
+      "Strength"
+    ],
+    [
+      "The movie Warcraft: the _________ was released in 2016, and was directed by Duncan Jones. What is the missing word?",
+      "Beginning"
+    ],
+    [
+      "In the military sci-fi computer game StarCraft the three main factions are the Protos, Terrans and who?",
+      "Zerg"
+    ],
+    [
+      "In the military sci-fi computer game StarCraft each faction has a harvester type unit, what is the Protos's called?",
+      "The probe"
+    ],
+    [
+      "In the military sci-fi computer game StarCraft, Hydralisks, Mutalisks, Overlords, Roachs and Queens are all units from what faction?",
+      "The Zerg"
+    ],
+    [
+      "In the StarCraft storyline Sarah Kerrigan becomes the queen of _______ and ruler of the Zerg. What word is missing?",
+      "Blades"
+    ],
+    [
+      "In the lore of StarCraft what is the name of 'the most powerful species the universe has ever known'?",
+      "Xel'Naga"
+    ],
+    [
+      "In the sci-fi game StarCraft II there are many antagonists, but nearing the end of the campaign it is revealed that the true enemy is 'The Dark God', what is it's name?",
+      "Amon"
+    ],
+    [
+      "In the spinoff game Minecraft: Dungeons the Orb of ___________ was found by the Arch-Illager, and corrupted him. What is the missing word?",
+      "Dominance"
+    ],
+    [
+      "In the action RPG game Diablo III, the classes that the player can choose from are the Necromancer, Crusader, Witch Doctor, Monk, Wizard, Demon Hunter and what?",
+      "The Barbarian"
+    ],
+    [
+      "In the action RPG series Diablo, the prime evils are Mephisto, Lord of Hatred, Diablo, Lord of Terror, and who?",
+      "Baal, Lord of Destruction"
+    ],
+    [
+      "In the action RPG series Diablo, the _______ Tyrael tore off his wings and became mortal in an attempt to unite the heavens and mankind.",
+      "Archangel"
+    ],
+    [
+      "The movie 'The Edge' is 1997 American survival thriller in which billionaire Charles Morse, photographer Robert Green and Rob's Assistant Stephen crash in the Alaskan wilderness and are chased by a what?",
+      "Bear"
+    ],
+    [
+      "Jacob and Wilhelm Grimm collected and publish how many legends and folklore stories in total?",
+      "211"
+    ],
+    [
+      "In the fairytale about the imp who spins straw into gold in exchange for the firstborn son of the soon to be Queen, what is the imp's name?",
+      "Rumpelstiltskin"
+    ],
+    [
+      "In the fairytale Rapunzel, what does the sorceress call in order to get Rapunzel to help her into the prison tower?",
+      "Rapunzel! Rapunzel! Let down your hair. That I may climb thy golden stair!"
+    ],
+    [
+      "The _______ Little Men in the Wood, the _______ Spinning Women, the _______ Languages and the _______ Snake Leaves. Assuming that these are all the names of fairy tales, what word can fill all of the blanks?",
+      "Three"
+    ],
+    [
+      "The Brothers Grimm's fairy tale 'The Pink' is about a young boy who has the power of what?",
+      "Wishing"
+    ],
+    [
+      "The Brothers Grimm's fairy tale 'Clever Hans''s title is considered what?",
+      "Ironic"
+    ],
+    [
+      "Tale 21 of the Brothers Grimm's fairy tales is 'The Mouse, the Bird, and the Sausage'. In this story each of the characters ______ after trying to imitate the role of another. What is the missing word?",
+      "Die"
+    ],
+    [
+      "In Dante's Inferno, the nine ring of Hell are: _______, Lust, Gluttony, Greed, Wrath, Heresy, Violence, Fraud and Treachery, in order. But What was the first?",
+      "Limbo"
+    ]
+  ]
+}
