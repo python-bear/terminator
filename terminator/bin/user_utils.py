@@ -45,6 +45,63 @@ class Ui:
             "12": "Y",
             "13": "Z"
         }
+        self.message_styling = {
+            # styles
+            "{}": self.esc(0),  # reset
+            "{!}": self.esc(1),  # bold
+            "{#}": self.esc(2),  # dim
+            "{/}": self.esc(3),  # italics
+            "{_}": self.esc(4),  # underline
+            "{*}": self.esc(5),  # blink
+            "{%}": self.esc(7),  # invert colors
+            "{^}": self.esc(8),  # hide
+            "{~}": self.esc(9),  # strikethrough
+            "{=}": self.esc(21),  # doubly underlined
+            "{!#}": self.esc(22),  # normal intensity
+            "{!_}": self.esc(24),  # not underlined
+            "{!*}": self.esc(24),  # not blinking
+            "{!%}": self.esc(24),  # not inverted
+            "{!^}": self.esc(28),  # not hidden
+            "{!~}": self.esc(29),  # not strikethrough
+            # fore
+            "{b}": self.esc(30),  # black
+            "{r}": self.esc(31),  # red
+            "{g}": self.esc(32),  # green
+            "{y}": self.esc(33),  # yellow
+            "{u}": self.esc(34),  # blue
+            "{m}": self.esc(35),  # magenta
+            "{c}": self.esc(36),  # cyan
+            "{w}": self.esc(37),  # white
+            "{d}": self.esc(39),  # default
+            # fore bright
+            "{!b}": self.esc(90),  # black
+            "{!r}": self.esc(91),  # red
+            "{!g}": self.esc(92),  # green
+            "{!y}": self.esc(93),  # yellow
+            "{!u}": self.esc(94),  # blue
+            "{!m}": self.esc(95),  # magenta
+            "{!c}": self.esc(96),  # cyan
+            "{!w}": self.esc(97),  # white
+            # back
+            "{B}": self.esc(40),  # black
+            "{R}": self.esc(41),  # red
+            "{G}": self.esc(42),  # green
+            "{Y}": self.esc(43),  # yellow
+            "{U}": self.esc(44),  # blue
+            "{M}": self.esc(45),  # magenta
+            "{C}": self.esc(46),  # cyan
+            "{W}": self.esc(47),  # white
+            "{D}": self.esc(47),  # default
+            # back bright
+            "{!B}": self.esc(100),  # black
+            "{!R}": self.esc(101),  # red
+            "{!G}": self.esc(102),  # green
+            "{!Y}": self.esc(103),  # yellow
+            "{!U}": self.esc(104),  # blue
+            "{!M}": self.esc(105),  # magenta
+            "{!C}": self.esc(106),  # cyan
+            "{!W}": self.esc(107),  # white
+        }
 
     def choice(self, text: str, answers: tuple, secret: bool = False, password: bool = False,
                remove_space: bool = False, convert_words_to_numbers: bool = True, new_lined: bool = False):
@@ -197,6 +254,14 @@ class Ui:
                 print(f"  · {data['antonyms'][j]}")
         print()
 
+    def print_party_message(self, message: dict):
+        print(f"{message['pic']}{Style.RESET_ALL} | {message['name']}{Style.RESET_ALL} | {Fore.YELLOW}{message['time']}"
+              f"{Style.RESET_ALL} :")
+        for key, value in self.message_styling.items():
+            message["message"] = message["message"].replace(key, value)
+        print(f"{message['message']}\n")
+        self.clean_formatting()
+
     def trivia(self, data) -> float:
         self.clean_formatting()
         question = data["question"].strip()
@@ -314,15 +379,19 @@ class Ui:
 
     @staticmethod
     def clean_formatting():
-        print(Style.RESET_ALL, end="")
+        print(Style.RESET_ALL, end="", flush=True)
 
     @staticmethod
     def clear_screen():
-        if os.name == 'nt':
-            os.system('cls')
+        if os.name == "nt":
+            os.system("cls")
 
         else:
-            os.system('clear')
+            os.system("clear")
+
+    @staticmethod
+    def esc(code):
+        return f"\033[{code}m"
 
 
 ui = Ui()

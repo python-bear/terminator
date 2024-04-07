@@ -1,4 +1,5 @@
 import json
+import socket
 import sys
 import subprocess
 import colorama
@@ -29,7 +30,6 @@ from colorama import Fore, Back, Style
 class Terminal:
     def __init__(self):
         self.state = "local"  # can be local, server, client
-        self.server_thread = None
 
         with open(os.path.join("build", "account.pkl"), "rb") as file:
             self.account = pickle.load(file)
@@ -244,12 +244,12 @@ class Terminal:
             for key, val in self.commands_help["client"].items():
                 print(f"{key}\t: {val}")
         elif command.startswith("/close"):
-            self.state = "local"
-            self.server.run = False
-            self.server_thread.join()
-            self.server.party_name = None
+            with self.server.lock:
+                self.state = "local"
+                self.server.run = False
         elif command.startswith("/code"):
-            print(f"    Code: {ui.ip_to_code(':'.join([str(val) for val in self.server.server_address]))}")
+            with self.server.lock:
+                print(f"    Code: {ui.ip_to_code(self.server.server_address[0])}")
         return False
 
     def handle_client_command(self, command: str) -> bool:
@@ -257,10 +257,19 @@ class Terminal:
             for key, val in self.commands_help["client"].items():
                 print(f"{key}\t: {val}")
         elif command.startswith("/post"):
-            self.client.write(f"{self.account['name']} : {command.split('-')[-1].strip()}")
+            self.client.write(command.split("-")[-1].strip(), self.account["pic"], self.account["name"])
         elif command.startswith("/leave"):
-            self.state = "local"
-            self.client.run = False
+            with self.client.lock:
+                self.state = "local"
+                self.client.run = False
+                self.client.receive_thread.join()
+                self.client.party_text_buffer = []
+        elif command == "":
+            with self.client.lock:
+                if len(self.client.party_text_buffer) != 0:
+                    print("\x1b[1A\x1b[1A\x1b[2K", flush=True)
+                    for __ in range(len(self.client.party_text_buffer)):
+                        ui.print_party_message(self.client.party_text_buffer.pop(0))
 
         base_command = command.split("-")[0].strip()
         if base_command in self.commands["local"] and base_command not in ("/help", "/?", "/join", "/party"):
@@ -280,13 +289,12 @@ class Terminal:
             command = [arg.strip() for arg in command.lower().split("-")]
 
             if len(command) == 1:
-                command.append(f"{self.account['plain name'].capitalize()}'s Party")
+                command.append(f"{self.account['plain name'].upper()}'S PARTY")
 
             self.state = "server"
-            self.server.party_name = command[1]
-            self.server.run = True
-            self.server_thread = threading.Thread(target=self.server.start_server)
-            self.server_thread.start()
+            with self.server.lock:
+                self.server.party_name = command[1]
+                self.server.start_server()
         elif command.startswith("/join"):
             command = [arg.strip() for arg in command.lower().split("-")]
 
@@ -295,21 +303,20 @@ class Terminal:
 
             else:
                 try:
-                    code = ui.code_to_ip(command[1].upper()).split(":")
-                    self.client.server_host = code[0]
-                    self.client.server_port = int(code[1])
+                    code = ui.code_to_ip(command[1].upper())
+                    with self.client.lock:
+                        self.client.server_host = code
 
                     self.state = "client"
-                    self.client.run = True
-                    print(self.client.server_port)
-                    print(self.client.server_host)
 
                     try:
                         self.client.start_client()
-                    except Exception as e:
+                    except socket.gaierror as e:
+                        self.handle_client_command("/leave")
                         print(ui.input_error(f"something when wrong in trying to connect to a party with the code "
                                              f"{code}: {e}"))
                 except:
+                    self.handle_client_command("/leave")
                     print(ui.input_error(f"that join code is invalid. It is not the right format."))
         elif command.startswith("/exit"):
             command = [arg.strip() for arg in command.lower().split("-")]

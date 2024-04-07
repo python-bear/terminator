@@ -1,5 +1,9 @@
 import threading
 import socket
+import pickle
+
+from colorama import Fore
+from datetime import datetime
 
 
 class Server:
@@ -11,14 +15,22 @@ class Server:
         self.usernames = []
         self.run = False
         self.client_threads = []
-        self.party_name = None
+        self.party_name = "PARTY"
+        self.receive_thread = None
+        self.lock = threading.Lock()
+        self.party_text_buffer = []
 
     def start_server(self):
-        self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server.bind(self.server_address)
-        self.server.listen()
-        print("Server has started and is listening.")
-        self.receive()
+        with self.lock:
+            self.server.run = True
+            self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.server.bind(self.server_address)
+            self.server.listen()
+            self.party_text_buffer.append(
+                self.server_message(f"{self.party_name} server has started and is listening.")
+            )
+            self.receive_thread = threading.Thread(target=self.receive)
+            self.receive_thread.start()
 
     def broadcast(self, message: bytes):
         for client in self.clients:
@@ -30,30 +42,45 @@ class Server:
                 message = client.recv(1024)
                 self.broadcast(message)
             except:
-                i = self.clients.index(client)
-                self.clients.remove(client)
-                client.close()
-                username = self.usernames[i]
-                self.usernames.remove(username)
-                self.broadcast(f"{username} was disconnected from the chat".encode("ascii"))
+                with self.lock:
+                    i = self.clients.index(client)
+                    self.clients.remove(client)
+                    client.close()
+                    username = self.usernames[i]
+                    self.usernames.remove(username)
+                    self.broadcast(pickle.dumps(self.server_message(f"{username} was disconnected from the chat")))
                 break
 
     def receive(self):
         while self.run:
             client, client_address = self.server.accept()
             self.clients.append(client)
-            print(f"Connected with {str(client_address)}")
 
-            client.send("INIT CONNECTION".encode("ascii"))
-            username = client.recv(1024).decode("ascii")
-            self.usernames.append(username)
-            print(f"Username of last connected client is {username}")
-            self.broadcast(f"{username} joined the chat".encode("ascii"))
-            client.send("You successfully connected to the server!".encode("ascii"))
+            client.send(pickle.dumps("INIT CONNECTION"))
+            username = pickle.loads(client.recv(1024))
+            with self.lock:
+                self.usernames.append(username)
+            self.party_text_buffer.append(
+                self.server_message(f"The user {username} connected from the address: {str(client_address)}")
+            )
+            self.broadcast(pickle.dumps(self.server_message(f"{username} joined the chat")))
+            client.send(pickle.dumps(
+                self.server_message(f"You successfully connected to the {self.party_name} party!"))
+            )
 
             client_thread = threading.Thread(target=self.handle_client, args=[client])
             client_thread.start()
-            self.client_threads.append(client_thread)
+            with self.lock:
+                self.client_threads.append(client_thread)
 
-        for thread in self.client_threads:
-            thread.join()
+        with self.lock:
+            for thread in self.client_threads:
+                thread.join()
+
+    def server_message(self, message: str) -> dict:
+        return {
+            "message": message,
+            "pic": "🎉",
+            "name": f"{Fore.WHITE}{self.party_name.upper()}",
+            "time": datetime.now().strftime('%H:%M')
+        }
