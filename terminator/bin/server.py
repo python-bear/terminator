@@ -22,15 +22,15 @@ class Server:
 
     def start_server(self):
         with self.lock:
-            self.server.run = True
+            self.run = True
             self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.server.bind(self.server_address)
             self.server.listen()
             self.party_text_buffer.append(
                 self.server_message(f"{self.party_name} server has started and is listening.")
             )
-            self.receive_thread = threading.Thread(target=self.receive)
-            self.receive_thread.start()
+        self.receive_thread = threading.Thread(target=self.receive)
+        self.receive_thread.start()
 
     def broadcast(self, message: bytes):
         for client in self.clients:

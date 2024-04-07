@@ -21,9 +21,9 @@ class Client:
         with self.lock:
             self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.client.connect((self.server_host, self.server_port))
-            self.client.run = True
-            self.receive_thread = threading.Thread(target=self.receive)
-            self.receive_thread.start()
+            self.run = True
+        self.receive_thread = threading.Thread(target=self.receive)
+        self.receive_thread.start()
 
     def receive(self):
         while self.run:

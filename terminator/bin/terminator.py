@@ -294,7 +294,7 @@ class Terminal:
             self.state = "server"
             with self.server.lock:
                 self.server.party_name = command[1]
-                self.server.start_server()
+            self.server.start_server()
         elif command.startswith("/join"):
             command = [arg.strip() for arg in command.lower().split("-")]
 
